@@ -3,16 +3,29 @@ import kotlin.random.Random
 
 fun main() {
 
-    println("Input the number of warriors for the First Team:")
-    val lotTeam1 = readLine()!!.toInt()
-    println("Input the number of warriors for the Second Team:")
-    val lotTeam2 = readLine()!!.toInt()
-    println("Input the number of rounds:")
-    val rounds = readLine()!!.toInt()
 
-    val battle = Battle(lotTeam1,lotTeam2)
+    while(true){
+        println("Input the number of warriors for the First Team:")
+        val lotTeam1 = readLine()!!.toInt()
+        println("Input the number of warriors for the Second Team:")
+        val lotTeam2 = readLine()!!.toInt()
+        println("Input the number of rounds:")
+        val rounds = readLine()!!.toInt()
 
-    battle.actionBattle(rounds)
+        val battle = Battle(lotTeam1, lotTeam2)
+
+        battle.actionBattle(rounds)
+        while (true) {
+            println(
+                """_______________________________
+            Repeat? (y/n)""".trimIndent()
+            )
+            when (readLine()!!) {
+                "y" -> break
+                "n" -> return
+            }
+        }
+    }
 
 }
 
