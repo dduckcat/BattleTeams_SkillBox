@@ -34,7 +34,6 @@ class Battle(lotTeam1: Int, lotTeam2: Int) {
             println("===================================")
         }
         BattleState.Progress.info(team1.second, team2.second)
-        println("###################################")
         when (battleTheEnd) {
             BattleState.WinFirstTeam -> println("The First team win!")
             BattleState.WinSecondTeam -> println("The Second team win")

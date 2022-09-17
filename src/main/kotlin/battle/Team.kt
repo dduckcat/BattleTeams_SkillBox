@@ -10,20 +10,40 @@ class Team(private val lot: Int) {
 
     var kills = 0
 
+    val infoAboutTeam: String
+        get() {
+            return if (listWarriors.isNotEmpty()){
+                """${listWarriors.filterIsInstance<General>().size} Generals
+            |${listWarriors.filterIsInstance<Captain>().size} Captain
+            |${listWarriors.filterIsInstance<Soldier>().size} Soldier
+            |${listWarriors.filterIsInstance<Intern>().size} Intern
+        """.trimMargin()
+            } else ""
+        }
+
+
     private fun createTeam(): MutableList<AbstractWarrior> {
         val team = mutableListOf<AbstractWarrior>()
         repeat(lot) {
             team.add(
                 when (Random.nextInt(100)) {
-                    in 0..10 -> General()
-                    in 11..30 -> Captain()
-                    in 31..60 -> Soldier()
+                    in 0..5 -> General()
+                    in 6..20 -> Captain()
+                    in 21..50 -> Soldier()
                     else -> Intern()
                 }
             )
         }
         return team
     }
+
+//    fun infoAboutTeam(){
+//        println("""${listWarriors.filterIsInstance<General>().size} Generals
+//            |${listWarriors.filterIsInstance<Captain>().size} Captain
+//            |${listWarriors.filterIsInstance<Soldier>().size} Soldier
+//            |${listWarriors.filterIsInstance<Intern>().size} Intern
+//        """.trimMargin())
+//    }
 
     fun isDead(warrior: AbstractWarrior) {
         if (warrior.isKilled) {
@@ -48,5 +68,6 @@ class Team(private val lot: Int) {
             listWarriors.size
         } else 0
     }
+
 
 }
