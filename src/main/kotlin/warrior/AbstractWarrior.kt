@@ -1,6 +1,7 @@
 package warrior
 
 import chance
+import exceptions.NoAmmoException
 import weapon.AbstractWeapon
 
 abstract class AbstractWarrior(maxHealth: Int) : Warrior {
@@ -12,16 +13,15 @@ abstract class AbstractWarrior(maxHealth: Int) : Warrior {
 
     var currentHealth = maxHealth.toDouble()
 
+
     override fun attack(warrior: Warrior) {
-        if (weapon.isEmpty) {
-            weapon.reloadMagazine()
-        } else {
+        try {
             weapon.getAmmoForFire().forEach { ammo ->
-                ammo?.let { ammoNotNull ->
-                    if (accuracy.chance() && !warrior.chanceToAvoidBeingHit.chance())
-                        warrior.takeDamage(ammoNotNull.getDamage())
-                } ?: weapon.reloadMagazine()
+                if (accuracy.chance() && !warrior.chanceToAvoidBeingHit.chance())
+                    warrior.takeDamage(ammo.getDamage())
             }
+        } catch (n: NoAmmoException){
+            weapon.reloadMagazine()
         }
     }
 

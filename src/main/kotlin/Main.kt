@@ -3,7 +3,6 @@ import kotlin.random.Random
 
 fun main() {
 
-
     while(true){
         println("Input the number of warriors for the First Team:")
         val lotTeam1 = readLine()!!.toInt()

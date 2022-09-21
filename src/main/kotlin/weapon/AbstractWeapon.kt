@@ -1,5 +1,6 @@
 package weapon
 
+import exceptions.NoAmmoException
 import kotlin.random.Random
 
 abstract class AbstractWeapon {
@@ -8,19 +9,18 @@ abstract class AbstractWeapon {
     abstract val fireType: FireType
 
     private var magazineAmmo = Stack<Ammo>()
-    val isEmpty: Boolean
-    get() {
-        return magazineAmmo.isEmpty()
-    }
 
-
-    fun getAmmoForFire(): List<Ammo?> {
-        val listAmmo = mutableListOf<Ammo?>()
-        when (fireType) {
-            FireType.SingleShot -> listAmmo.add(magazineAmmo.pop())
-            is FireType.BurstShot -> repeat((fireType as FireType.BurstShot).burstSize) {
-                listAmmo.add(magazineAmmo.pop())
-            }
+    fun getAmmoForFire(): List<Ammo> {
+        val listAmmo = mutableListOf<Ammo>()
+        val numberOfRounds = when (fireType) {
+            FireType.SingleShot -> 1
+            is FireType.BurstShot -> (fireType as FireType.BurstShot).burstSize
+        }
+        repeat(numberOfRounds) {
+            val nextRound = magazineAmmo.pop()
+            nextRound?.let {
+                listAmmo.add(it)
+            } ?: throw NoAmmoException()
         }
         return listAmmo.toList()
     }
